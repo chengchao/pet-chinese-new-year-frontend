@@ -21,7 +21,6 @@ export default function Page() {
         onChange={onChange}
         maxNumber={maxNumber}
         dataURLKey="data_url"
-        acceptType={["image/*"]}
       >
         {({
           imageList,
