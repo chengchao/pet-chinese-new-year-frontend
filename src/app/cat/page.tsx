@@ -1,6 +1,8 @@
 "use client"
 import React from "react";
 import ImageUploading, { ImageListType, ImageType } from 'react-images-uploading';
+import { Button } from "@/components/ui/button"
+
 
 export default function Page() {
   const [images, setImages] = React.useState<ImageListType>([]);
@@ -32,22 +34,23 @@ export default function Page() {
           dragProps,
         }) => (
           // write your building UI
-          <div className="upload__image-wrapper">
-            <button
-              style={isDragging ? { color: 'red' } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            >
-              Click or Drop here
-            </button>
-            &nbsp;
-            <button onClick={onImageRemoveAll}>Remove all images</button>
+          <div>
+            <div className="flex space-x-2">
+              <Button
+                style={isDragging ? { color: 'red' } : undefined}
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                Click
+              </Button>
+              <Button onClick={onImageRemoveAll}>Remove all images</Button>
+            </div>
             {imageList.map((image, index) => (
               <div key={index} className="image-item">
                 <img src={image['data_url']} alt="" width="100" />
-                <div className="image-item__btn-wrapper">
-                  <button onClick={() => onImageUpdate(index)}>Update</button>
-                  <button onClick={() => onImageRemove(index)}>Remove</button>
+                <div className="flex space-x-2">
+                  <Button onClick={() => onImageUpdate(index)}>Update</Button>
+                  <Button onClick={() => onImageRemove(index)}>Remove</Button>
                 </div>
               </div>
             ))}
