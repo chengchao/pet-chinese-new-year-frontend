@@ -9,7 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@alicloud/openapi-client": "^0.4.7",
+    "@alicloud/sts20150401": "^1.1.4",
+    "@alicloud/tea-util": "^1.4.7",
     "@radix-ui/react-slot": "^1.0.2",
+    "ali-oss": "^6.19.0",
+    "axios": "^1.6.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "lucide-react": "^0.309.0",
@@ -21,6 +26,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/ali-oss": "^6.16.11",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

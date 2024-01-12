@@ -1,12 +1,33 @@
 "use client"
 import React from "react";
 import ImageUploading, { ImageListType, ImageType } from 'react-images-uploading';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import OSS from "ali-oss";
+import getOssClient from "./aliyun_oss_client";
 
 
 export default function Page() {
   const [images, setImages] = React.useState<ImageListType>([]);
+  const [ossClient, setOssClient] = React.useState<OSS | null>(null);
   const maxNumber = 30;
+
+  async function handleUploadFile(imageList: ImageListType) {
+    let newClient = ossClient
+    if (newClient === null) {
+      newClient = await getOssClient()
+      setOssClient(newClient)
+    }
+    const filePath = 'xxx/xxx/'
+    imageList.map(async (image) => {
+      if (newClient !== null) {
+        const { name, url, res } = await newClient.put(`${filePath}${image.file?.name}`, image.file)
+        if (res.status === 200) {
+          console.log(`URL: ${url}`)
+          return url
+        }
+      }
+    })
+  }
 
   const onChange = (imageList: ImageListType, addUpdateIndex?: number[]) => {
     // data for submit
@@ -16,7 +37,6 @@ export default function Page() {
 
   return <>
     <div>
-      {/* <input type="file" accept="image/*" multiple onChange={handleChange} /> */}
       <ImageUploading
         multiple
         value={images}
@@ -41,9 +61,10 @@ export default function Page() {
                 onClick={onImageUpload}
                 {...dragProps}
               >
-                Click
+                Pick
               </Button>
               <Button onClick={onImageRemoveAll}>Remove all images</Button>
+              <Button onClick={() => handleUploadFile(imageList)}>Train</Button>
             </div>
             {imageList.map((image, index) => (
               <div key={index} className="image-item">
