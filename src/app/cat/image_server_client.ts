@@ -1,10 +1,9 @@
 import axios from "axios";
 
 class ImageServerClient {
-  async sendImagePaths(petName: string, names: string[]) {
-    const response = await axios.post("/api/image_server/upload_image_urls", {
-      petName: petName,
-      names: names,
+  async sendImagePrefix(prefix: string) {
+    const response = await axios.post("/api/image_server/upload_image_prefix", {
+      prefix: prefix,
     });
   }
 }

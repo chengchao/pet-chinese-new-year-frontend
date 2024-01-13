@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { petName, names } = await request.json();
-  console.log(`Request: ${petName}, ${names}`);
+  const { prefix } = await request.json();
+  console.log(`Image prefix: ${prefix}`);
   return NextResponse.json({ message: "Hello World!" });
 }
