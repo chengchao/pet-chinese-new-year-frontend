@@ -1,13 +1,15 @@
 "use client"
+
 import React from "react";
 import ImageUploading, { ImageListType, ImageType } from 'react-images-uploading';
 import { Button } from "@/components/ui/button";
 import OSS from "ali-oss";
-import getOssClient from "./aliyun_oss_client";
+import getOssClient from "../../components/aliyun_oss_client";
 import { Input } from "@/components/ui/input";
-import getImageServerClient from "./image_server_client";
+import getImageServerClient, { ImageServerClient } from "./image_server_client";
 import { Label } from "@/components/ui/label";
 import * as Utils from "@/lib/utils"
+import { ParsedEvent, ReconnectInterval, createParser } from "eventsource-parser";
 
 
 export default function Page() {
@@ -15,6 +17,8 @@ export default function Page() {
   const [petName, setPetName] = React.useState<string>("")
   const [ossClient, setOssClient] = React.useState<OSS | null>(null);
   const maxNumber = 30;
+
+  const filePath = `cat/${petName}/`
 
   async function handleSaveFiles(imageList: ImageListType) {
     if (petName === "") {
@@ -27,7 +31,6 @@ export default function Page() {
       newClient = await getOssClient()
       setOssClient(newClient)
     }
-    const filePath = `cat/${petName}/`
 
     const { objects } = await newClient.listV2({ prefix: filePath }, {})
     const filesOnServer = objects.map((obj) => obj.name.substring(filePath.length))
@@ -78,7 +81,6 @@ export default function Page() {
       setOssClient(newClient)
     }
 
-    const filePath = `cat/${petName}/`
     const { objects, res } = await newClient.listV2({ prefix: filePath }, {})
     if (res.status === 200) {
       const images: ImageListType = objects.map((obj) => {
@@ -103,7 +105,6 @@ export default function Page() {
       setOssClient(newClient)
     }
 
-    const filePath = `cat/${petName}/`
     const { objects, res } = await newClient.listV2({ prefix: filePath }, {})
     if (res.status !== 200) {
       alert(`Failed to get server image list, status code ${res.status}`)
@@ -119,12 +120,38 @@ export default function Page() {
     console.log(`Files showed: ${filesShowed}`)
 
     if (!Utils.areArraysEqual(filesOnServer, filesShowed)) {
-      alert("You have either not load the image or have unsaved change!")
+      alert("You have either not load the images or have unsaved change!")
       return
     }
 
     const imageServerClient = getImageServerClient()
-    await imageServerClient.sendImagePrefix(filePath)
+    await startTrain(filePath, imageServerClient)
+  }
+
+  async function startTrain(prefix: string, imageServerClient: ImageServerClient) {
+    const data = await imageServerClient.startTrain(prefix)
+    if (!data) {
+      return
+    }
+
+    const onParse = (event: ParsedEvent | ReconnectInterval) => {
+      if (event.type === "event") {
+        const data = event.data;
+      }
+    };
+
+    // https://web.dev/streams/#the-getreader-and-read-methods
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    const parser = createParser(onParse);
+
+    let done = false;
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      parser.feed(chunkValue);
+    }
   }
 
   const onChange = (imageList: ImageListType, addUpdateIndex?: number[]) => {

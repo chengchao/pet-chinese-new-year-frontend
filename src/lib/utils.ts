@@ -22,5 +22,5 @@ export function areArraysEqual<T>(a: T[], b: T[]): boolean {
     return false;
   }
   const diff = getDifference(a, b);
-  return !diff;
+  return diff.length === 0;
 }

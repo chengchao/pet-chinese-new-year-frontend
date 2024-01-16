@@ -10,6 +10,8 @@ declare global {
       ALIBABA_CLOUD_STS_TOKEN_ROLE_SESSION_NAME: string;
       ALIBABA_CLOUD_OSS_REGION: string;
       ALIBABA_CLOUD_OSS_BUCKET: string;
+      IMAGE_SERVER_URL: string;
+      IMAGE_SERVER_TRAINING_PROGRESS_PATH: string;
       // add more environment variables and their types here
     }
   }
