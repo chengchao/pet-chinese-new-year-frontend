@@ -3,8 +3,6 @@
 import React from "react"
 import PetImagesEditor from "./pet-images-editor"
 import PetImagesUploadButton from "./pet-images-upload-button"
-import PetImagesPreviewer from "./pet-images-previewer"
-import { Button } from "./ui/button"
 import { useAreAllImagesNotUploaded, useAreAllImagesUploaded, useAtLeastOneImageIsUploading, usePetImagesUploadingStatus } from "./use-pet-images-uploading-status"
 
 interface PetImagesUploaderProps {

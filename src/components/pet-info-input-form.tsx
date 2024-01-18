@@ -79,7 +79,7 @@ export function PetInfoInputForm({ onPetNameSubmit }: PetNameInputFormProps) {
                 </Select>
               </FormControl>
               <FormDescription>
-                This is your pet species.
+                {"This is your pet's species."}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -95,7 +95,7 @@ export function PetInfoInputForm({ onPetNameSubmit }: PetNameInputFormProps) {
                 <Input placeholder="keai" {...field} />
               </FormControl>
               <FormDescription>
-                This is your pet's name.
+                {"This is your pet's name."}
               </FormDescription>
               <FormMessage />
             </FormItem>
