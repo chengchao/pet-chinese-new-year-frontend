@@ -6,16 +6,23 @@ import { Button } from "@/components/ui/button";
 import { usePetImages } from "./use-pet-images";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
+import { UploadingStatus, useAreAllImagesNotUploaded, useAreAllImagesUploaded, useAtLeastOneImageIsUploading, usePetImagesUploadingStatus } from "./use-pet-images-uploading-status";
 
 
 export default function PetImagesEditor() {
   const [images, setImages] = usePetImages()
+  const [imagesUploadingStatus, setImagesUploadingStatus] = usePetImagesUploadingStatus()
   const maxNumber = 25
+
+  const [areAllImagesUploaded] = useAreAllImagesUploaded()
+  const [atLeastOneImageIsUploading] = useAtLeastOneImageIsUploading()
+  const [areAllImagesNotUploaded] = useAreAllImagesNotUploaded()
 
   const onChange = (imageList: ImageListType, addUpdateIndex?: number[]) => {
     // data for submit
     console.log(`Calling onChange: ${imageList} ${addUpdateIndex}`)
     setImages(imageList);
+    setImagesUploadingStatus(imageList.map(() => { return { uploadingStatus: UploadingStatus.NotUploaded } }))
   };
 
   return (
@@ -35,9 +42,16 @@ export default function PetImagesEditor() {
       }) => (
         // write your building UI
         <div className="">
-          <div className="space-x-2 flex justify-center">
-            <Button onClick={onImageUpload}>Add</Button>
-            <Button onClick={onImageRemoveAll}>Remove all</Button>
+          <div className="space-x-2 flex justify-center h-12">
+            <div className="flex flex-col justify-center">
+              {atLeastOneImageIsUploading && <p>Uploading</p>}
+              {areAllImagesUploaded && <p>All images are uploaded</p>}
+              {areAllImagesNotUploaded &&
+                <div className="space-x-2 flex justify-center">
+                  <Button onClick={onImageUpload}>Add</Button>
+                  <Button onClick={onImageRemoveAll}>Remove all</Button>
+                </div>}
+            </div>
           </div>
           <Separator className="my-4" />
           <div className="grid grid-cols-3 gap-4 px-2">
@@ -51,9 +65,17 @@ export default function PetImagesEditor() {
                     className="object-cover"
                   />
                 </div>
-                <div className="flex flex-col space-y-2 h-24">
-                  <Button onClick={() => onImageUpdate(index)}>Update</Button>
-                  <Button onClick={() => onImageRemove(index)}>Remove</Button>
+                <div className="h-24">
+                  {imagesUploadingStatus[index].uploadingStatus === UploadingStatus.Uploading &&
+                    <p>Uploading</p>}
+                  {imagesUploadingStatus[index].uploadingStatus === UploadingStatus.Uploaded &&
+                    <p>Uploaded</p>}
+                  {imagesUploadingStatus[index].uploadingStatus === UploadingStatus.NotUploaded &&
+                    <div className="flex flex-col space-y-2">
+                      <Button onClick={() => onImageUpdate(index)}>Update</Button>
+                      <Button onClick={() => onImageRemove(index)}>Remove</Button>
+                    </div>
+                  }
                 </div>
               </div>
             ))}

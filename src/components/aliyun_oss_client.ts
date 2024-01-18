@@ -1,5 +1,4 @@
 import OSS from "ali-oss";
-import axios, { AxiosError } from "axios";
 
 type OssStsType = {
   accessKeyId: string;
@@ -11,10 +10,14 @@ type OssStsType = {
 };
 
 async function getOssCredentials(): Promise<OssStsType> {
-  const response = await axios.post("/api/aliyun/oss/upload_images", {});
+  const response = await fetch("/api/aliyun/oss/sts", {
+    next: { revalidate: 3600 },
+  });
+  const data = await response.json();
+  console.log(`${JSON.stringify(data)}`);
   return {
-    ...response.data,
-    stsToken: response.data.securityToken,
+    ...data,
+    stsToken: data.securityToken,
   };
 }
 /**
