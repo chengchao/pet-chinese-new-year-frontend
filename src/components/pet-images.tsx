@@ -7,9 +7,14 @@ import { usePetImages } from "./use-pet-images";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
 import { UploadingStatus, useAreAllImagesNotUploaded, useAreAllImagesUploaded, useAtLeastOneImageIsUploading, usePetImagesUploadingStatus } from "./use-pet-images-uploading-status";
+import { cn } from "@/lib/utils";
 
+interface PetImagesProps extends React.HTMLAttributes<HTMLDivElement> {
+  width?: number
+  height?: number
+}
 
-export default function PetImagesEditor() {
+export default function PetImages({ width, height, className, ...props }: PetImagesProps) {
   const [images, setImages] = usePetImages()
   const [imagesUploadingStatus, setImagesUploadingStatus] = usePetImagesUploadingStatus()
   const maxNumber = 25
@@ -41,7 +46,7 @@ export default function PetImagesEditor() {
         onImageRemove,
       }) => (
         // write your building UI
-        <div className="">
+        <div className={cn("", className)} {...props}>
           <div className="space-x-2 flex justify-center h-12">
             <div className="flex flex-col justify-center">
               {atLeastOneImageIsUploading && <p>Uploading</p>}
@@ -57,12 +62,17 @@ export default function PetImagesEditor() {
           <div className="grid grid-cols-3 gap-4 px-2">
             {imageList.map((image, index) => (
               <div key={index} className="space-y-2">
-                <div className="relative h-32">
+                <div className="relative">
                   <Image
                     src={image['data_url']}
-                    alt=""
-                    fill={true}
-                    className="object-cover"
+                    alt={image.file?.name ?? ""}
+                    // fill={true}
+                    width={width}
+                    height={height}
+                    // className="object-cover"
+                    className={cn(
+                      "h-auto w-auto object-cover transition-all hover:scale-105", "aspect-square"
+                    )}
                   />
                 </div>
                 <div className="h-24">

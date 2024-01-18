@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
 import { usePetInfo } from "@/components/use-pet-info"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 
@@ -33,8 +32,6 @@ interface PetNameInputFormProps {
 export function PetInfoInputForm({ onPetNameSubmit }: PetNameInputFormProps) {
   const [, setPetInfo] = usePetInfo()
 
-  const { toast } = useToast()
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -44,14 +41,6 @@ export function PetInfoInputForm({ onPetNameSubmit }: PetNameInputFormProps) {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
     setPetInfo({ ...data })
     onPetNameSubmit(data.petSpecies, data.petName)
   }
