@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "jotai";
-import PetImagesUploader from "@/components/pet-images-uploader";
+import PetImages from "@/components/pet-images";
 
 export default async function Page({ params }: { params: { petSpecies: string, petName: string } }) {
   return (
@@ -11,7 +11,9 @@ export default async function Page({ params }: { params: { petSpecies: string, p
             {`${params.petSpecies}/${params.petName}`}
           </h3>
         </div>
-        <PetImagesUploader petSpecies={params.petSpecies} petName={params.petName} />
+        <div className="my-2">
+          <PetImages width={110} height={110} petSpecies={params.petSpecies} petName={params.petName} />
+        </div>
       </div>
     </Provider>
   )

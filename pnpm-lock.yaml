@@ -53,6 +53,9 @@ dependencies:
   jotai:
     specifier: ^2.6.1
     version: 2.6.1(@types/react@18.2.47)(react@18.2.0)
+  lucide:
+    specifier: ^0.312.0
+    version: 0.312.0
   lucide-react:
     specifier: ^0.309.0
     version: 0.309.0(react@18.2.0)
@@ -2817,6 +2820,10 @@ packages:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /lucide@0.312.0:
+    resolution: {integrity: sha512-55fRrT/HuYDJqhLEfxmbIT91GiYNg8eB2tnPrI3gsFgHMgCAMXpPSYl9YYffQUz4t2OreO1SLn74JWTLr9J43A==}
     dev: false
 
   /merge-descriptors@1.0.3:
