@@ -90,7 +90,7 @@ export function PetInfoInputForm({ onPetNameSubmit }: PetNameInputFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" size="sm" className="mt-2">Submit</Button>
       </form>
     </Form>
   )
