@@ -1,5 +1,4 @@
 import STSClient from "./get_sts";
-import { cache } from "react";
 
 // in seconds
 // export const revalidate = 3600;

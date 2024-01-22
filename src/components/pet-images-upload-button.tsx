@@ -7,11 +7,11 @@ import { usePetImages } from "./use-pet-images"
 import * as Utils from "@/lib/utils"
 import { UploadingStatus, usePetImagesUploadingStatus } from "./use-pet-images-uploading-status"
 
-interface PetImagesUploadButtonProps {
+interface PetImagesUploadButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   imagePrefix: string
 }
 
-export default function PetImagesUploadButton({ imagePrefix }: PetImagesUploadButtonProps) {
+export default function PetImagesUploadButton({ imagePrefix, ...props }: PetImagesUploadButtonProps) {
   const [images,] = usePetImages()
   const [, setImagesUploadingStatus] = usePetImagesUploadingStatus()
 
@@ -46,7 +46,9 @@ export default function PetImagesUploadButton({ imagePrefix }: PetImagesUploadBu
 
   return (
     <div>
-      <Button onClick={handleUploadFiles}>Upload</Button>
+      <Button onClick={handleUploadFiles} {...props}>
+        {props.children}
+      </Button>
     </div>
   )
 }

@@ -10,7 +10,7 @@ import { UploadingStatus, useAreAllImagesNotUploaded, useAreAllImagesUploaded, u
 import { cn } from "@/lib/utils";
 import PetImagesUploadButton from "./pet-images-upload-button";
 import PetImagesTrainButton from "./pet-images-train-button";
-import { ButtonLoading } from "./please-wait-loading-button";
+import { Loader, Check, Loader2 } from "lucide-react";
 
 interface PetImagesProps extends React.HTMLAttributes<HTMLDivElement> {
   petSpecies: string
@@ -35,7 +35,7 @@ export default function PetImages({ width, height, petSpecies, petName, classNam
     // data for submit
     console.log(`Calling onChange: ${imageList} ${addUpdateIndex}`)
     setImages(imageList);
-    setImagesUploadingStatus(imageList.map(() => { return { uploadingStatus: UploadingStatus.NotUploaded } }))
+    setImagesUploadingStatus(imageList.map(() => ({ uploadingStatus: UploadingStatus.NotUploaded })))
   };
 
   return (
@@ -55,17 +55,23 @@ export default function PetImages({ width, height, petSpecies, petName, classNam
       }) => (
         // write your building UI
         <div className={cn("", className)} {...props}>
-          <div className="flex justify-around h-10 relative">
-            {atLeastOneImageIsUploading && <ButtonLoading />}
-            {areAllImagesNotUploaded && <Button onClick={onImageUpload}>{asLeastOneImageAdded ? `Add More Pictures` : `Add Pictures`}</Button>}
-            {asLeastOneImageAdded && areAllImagesNotUploaded && <PetImagesUploadButton imagePrefix={prefix} />}
-            {areAllImagesUploaded && <PetImagesTrainButton imagePrefix={prefix} />}
+          <div className="flex justify-around h-10">
+            <Button onClick={onImageUpload}>{`Add Pictures`}</Button>
+            {
+              asLeastOneImageAdded &&
+              !areAllImagesUploaded &&
+              <PetImagesUploadButton imagePrefix={prefix} disabled={atLeastOneImageIsUploading}>
+                {atLeastOneImageIsUploading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Start to make the digital
+              </PetImagesUploadButton>
+            }
+            {areAllImagesUploaded && <PetImagesTrainButton imagePrefix={prefix}>Go to training page</PetImagesTrainButton>}
           </div>
           <Separator className="my-4" />
           <div className="relative">
             <div className="grid grid-cols-3 gap-2 mx-7">
               {imageList.map((image, index) => (
-                <div key={index} className="space-y-2">
+                <div key={index} className="space-y-2 w-[110px]">
                   <div className="relative overflow-hidden rounded-md">
                     <Image
                       src={image['data_url']}
@@ -73,28 +79,24 @@ export default function PetImages({ width, height, petSpecies, petName, classNam
                       width={width}
                       height={height}
                       className={cn(
-                        "h-auto w-auto object-cover transition-all hover:scale-105", "aspect-square"
+                        "z-0 h-auto w-auto object-cover transition-all hover:scale-105", "aspect-square"
                       )}
                     />
+                    {imagesUploadingStatus[index].uploadingStatus === UploadingStatus.Uploading &&
+                      <Loader className="z-10 absolute animate-spin inset-0 h-[110px] w-[110px]" strokeWidth={1} color="grey" />}
+                    {imagesUploadingStatus[index].uploadingStatus === UploadingStatus.Uploaded &&
+                      <Check className="z-10 absolute top-0 right-0 h-6 w-6" strokeWidth={3} color="green" />}
                   </div>
                   <div className="h-12">
-                    {imagesUploadingStatus[index].uploadingStatus === UploadingStatus.Uploading &&
-                      <p>Uploading</p>}
-                    {imagesUploadingStatus[index].uploadingStatus === UploadingStatus.Uploaded &&
-                      <p>Uploaded</p>}
-                    {imagesUploadingStatus[index].uploadingStatus === UploadingStatus.NotUploaded &&
-                      <div className="flex flex-col space-y-2">
-                        {/* <Button onClick={() => onImageUpdate(index)}>Update</Button> */}
-                        <Button onClick={() => onImageRemove(index)}>Remove</Button>
-                      </div>
-                    }
+                    <div className="flex flex-col space-y-2">
+                      {/* <Button onClick={() => onImageUpdate(index)}>Update</Button> */}
+                      <Button onClick={() => onImageRemove(index)}>Remove</Button>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-
         </div>
       )}
     </ImageUploading>
