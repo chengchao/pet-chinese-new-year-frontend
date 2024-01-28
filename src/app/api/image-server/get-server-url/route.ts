@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   // const { prefix } = await request.json();
   // console.log(`Image prefix: ${prefix}`);
 

@@ -1,7 +1,7 @@
 // 依赖的模块可通过下载工程中的模块依赖文件或右上角的获取 SDK 依赖信息查看
-import Sts20150401, * as $Sts20150401 from "@alicloud/sts20150401";
-import OpenApi, * as $OpenApi from "@alicloud/openapi-client";
-import Util, * as $Util from "@alicloud/tea-util";
+import Sts20150401, * as $Sts20150401 from '@alicloud/sts20150401';
+import * as $OpenApi from '@alicloud/openapi-client';
+import Util, * as $Util from '@alicloud/tea-util';
 
 export default class STSClient {
   /**
@@ -15,7 +15,7 @@ export default class STSClient {
     accessKeyId: string,
     accessKeySecret: string
   ): Sts20150401 {
-    let config = new $OpenApi.Config({
+    const config = new $OpenApi.Config({
       // 必填，您的 AccessKey ID
       accessKeyId: accessKeyId,
       // 必填，您的 AccessKey Secret
@@ -33,24 +33,24 @@ export default class STSClient {
   ): Promise<$Sts20150401.AssumeRoleResponseBodyCredentials> {
     // 请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID 和 ALIBABA_CLOUD_ACCESS_KEY_SECRET。
     // 工程代码泄露可能会导致 AccessKey 泄露，并威胁账号下所有资源的安全性。以下代码示例使用环境变量获取 AccessKey 的方式进行调用，仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378664.html
-    let client = STSClient.createClient(
+    const client = STSClient.createClient(
       process.env.ALIBABA_CLOUD_ACCESS_KEY_ID,
       process.env.ALIBABA_CLOUD_ACCESS_KEY_SECRET
     );
-    let assumeRoleRequest = new $Sts20150401.AssumeRoleRequest({
+    const assumeRoleRequest = new $Sts20150401.AssumeRoleRequest({
       durationSeconds: durationSeconds,
       roleArn: roleArn,
       roleSessionName: roleSessionName,
     });
-    let runtime = new $Util.RuntimeOptions({});
+    const runtime = new $Util.RuntimeOptions({});
     try {
-      console.log("Calling client.assumeRoleWithOptions");
+      console.log('Calling client.assumeRoleWithOptions');
       // 复制代码运行请自行打印 API 的返回值
       const assume_role_response = await client.assumeRoleWithOptions(
         assumeRoleRequest,
         runtime
       );
-      console.log("Finish calling client.assumeRoleWithOptions");
+      console.log('Finish calling client.assumeRoleWithOptions');
       console.log(
         `AssumeRoleResponse.body.credentials: ${assume_role_response.body.credentials}`
       );
@@ -59,21 +59,21 @@ export default class STSClient {
       );
     } catch (error) {
       console.log(`Error! typeof error: ${typeof error}`);
-      if (typeof error === "string") {
+      if (typeof error === 'string') {
         console.log(error);
       } else if (error instanceof Error) {
         // 错误 message
         console.log(error.message);
         if (
-          "data" in error &&
+          'data' in error &&
           error.data instanceof Object &&
-          "Recommend" in error.data
+          'Recommend' in error.data
         ) {
           // 诊断地址
-          console.log(error.data["Recommend"]);
+          console.log(error.data['Recommend']);
         }
       } else if (error instanceof Object) {
-        if ("message" in error) {
+        if ('message' in error) {
           console.log(`error.message ${Util.assertAsString(error.message)}`);
         }
       }
@@ -88,6 +88,6 @@ export default class STSClient {
       return credentials;
     }
 
-    throw new Error("credentials is undefined");
+    throw new Error('credentials is undefined');
   }
 }

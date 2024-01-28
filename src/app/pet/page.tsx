@@ -3,7 +3,7 @@
 import { PetInfoInputForm } from "@/components/pet-info-input-form";
 import { Separator } from "@/components/ui/separator";
 import { Provider } from "jotai";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter()

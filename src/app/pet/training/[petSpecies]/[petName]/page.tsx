@@ -1,4 +1,4 @@
-export default async function Page({ params }: { params: { petSpecies: string, petName: string } }) {
+export default async function Page() {
   // check if there is already a training job running
   // if yes, show progress
   // if no, start a training job
