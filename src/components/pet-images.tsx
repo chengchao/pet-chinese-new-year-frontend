@@ -1,21 +1,23 @@
 "use client";
 
 import React from "react";
+import { Check, Loader, Loader2 } from "lucide-react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
+
 import { Button } from "@/components/ui/button";
-import { usePetImages } from "./use-pet-images";
+
+import PetImage from "./pet-image";
+import PetImageRemoveButton from "./pet-image-remove-button";
+import PetImagesTrainButton from "./pet-images-train-button";
+import PetImagesUploadButton from "./pet-images-upload-button";
 import { Separator } from "./ui/separator";
+import { usePetImages } from "./use-pet-images";
 import {
   UploadingStatus,
   useAreAllImagesUploaded,
   useAtLeastOneImageIsUploading,
   usePetImagesUploadingStatus,
 } from "./use-pet-images-uploading-status";
-import PetImagesUploadButton from "./pet-images-upload-button";
-import PetImagesTrainButton from "./pet-images-train-button";
-import { Check, Loader, Loader2 } from "lucide-react";
-import PetImage from "./pet-image";
-import PetImageRemoveButton from "./pet-image-remove-button";
 
 interface PetImagesProps extends React.HTMLAttributes<HTMLDivElement> {
   petSpecies: string;
@@ -56,7 +58,7 @@ export default function PetImages({ petSpecies, petName }: PetImagesProps) {
         {({ imageList, onImageUpload, onImageRemove }) => (
           // write your building UI
           <div>
-            <div className="flex justify-around h-10">
+            <div className="flex h-10 justify-around">
               <Button onClick={onImageUpload}>{`Add Pictures`}</Button>
               {asLeastOneImageAdded && !areAllImagesUploaded && (
                 <PetImagesUploadButton
@@ -64,7 +66,7 @@ export default function PetImages({ petSpecies, petName }: PetImagesProps) {
                   disabled={atLeastOneImageIsUploading}
                 >
                   {atLeastOneImageIsUploading && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 size-4 animate-spin" />
                   )}
                   Start to make the digital pet
                 </PetImagesUploadButton>
@@ -76,7 +78,7 @@ export default function PetImages({ petSpecies, petName }: PetImagesProps) {
               )}
             </div>
             <Separator className="my-4" />
-            <div className="grid grid-cols-3 gap-2 mx-7">
+            <div className="mx-7 grid grid-cols-3 gap-2">
               {imageList.map((image, index) => (
                 <PetImage key={index} image={image} width={110} height={110}>
                   <PetImageRemoveButton
@@ -86,7 +88,7 @@ export default function PetImages({ petSpecies, petName }: PetImagesProps) {
                   {imagesUploadingStatus[index].uploadingStatus ===
                     UploadingStatus.Uploading && (
                     <Loader
-                      className="z-10 absolute animate-spin inset-0 h-[110px] w-[110px]"
+                      className="absolute inset-0 z-10 size-[110px] animate-spin"
                       strokeWidth={1}
                       color="grey"
                     />
@@ -94,7 +96,7 @@ export default function PetImages({ petSpecies, petName }: PetImagesProps) {
                   {imagesUploadingStatus[index].uploadingStatus ===
                     UploadingStatus.Uploaded && (
                     <Check
-                      className="z-10 absolute top-0 right-0 h-6 w-6"
+                      className="absolute right-0 top-0 z-10 size-6"
                       strokeWidth={3}
                       color="green"
                     />

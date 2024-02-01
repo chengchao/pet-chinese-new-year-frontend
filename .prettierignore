@@ -1,0 +1,48 @@
+# Ignore build output
+/.next
+
+# Ignore node_modules
+/node_modules
+
+# Ignore coverage reports
+/coverage
+
+# Ignore static files
+/public
+
+# Ignore serverless functions
+/.serverless
+
+# Ignore logs
+/logs
+
+# Ignore cache files
+/.cache
+
+# Ignore temporary files
+/.tmp
+
+# Ignore compiled files
+/*.js
+
+# Ignore TypeScript declaration files
+/*.d.ts
+
+# Ignore test files
+/*.test.js
+/*.spec.js
+
+# Ignore environment files
+.env*
+
+# Ignore CommonJS files
+/*.cjs
+
+# Ignore package-lock.json
+package-lock.json
+
+# Ignore pnpm-lock.yaml
+pnpm-lock.yaml
+
+# Ignore components.json
+components.json

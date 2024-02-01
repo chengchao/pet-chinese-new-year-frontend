@@ -1,6 +1,7 @@
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { ImageType } from "react-images-uploading";
+
+import { cn } from "@/lib/utils";
 
 type PetImageCardProp = {
   image: ImageType;
@@ -16,7 +17,7 @@ export default function PetImage({
   children,
 }: PetImageCardProp) {
   return (
-    <div className="space-y-2 w-[110px] relative overflow-hidden rounded-md">
+    <div className="relative w-[110px] space-y-2 overflow-hidden rounded-md">
       <Image
         src={image["data_url"]}
         alt={image.file?.name ?? ""}
