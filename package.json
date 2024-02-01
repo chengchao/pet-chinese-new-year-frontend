@@ -7,13 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prisma": "dotenv -e .env.local -- npx prisma"
   },
   "dependencies": {
     "@alicloud/openapi-client": "^0.4.7",
     "@alicloud/sts20150401": "^1.1.4",
     "@alicloud/tea-util": "^1.4.7",
     "@hookform/resolvers": "^3.3.4",
+    "@prisma/client": "5.9.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-select": "^2.0.0",
@@ -56,6 +58,7 @@
     "lint-staged": "^15.2.0",
     "postcss": "^8",
     "prettier": "3.2.4",
+    "prisma": "^5.9.0",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }
